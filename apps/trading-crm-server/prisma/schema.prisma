@@ -1,0 +1,117 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Transporter {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  supplies  Supply[]
+}
+
+model Supply {
+  id                       String                           @id @default(cuid())
+  createdAt                DateTime                         @default(now())
+  updatedAt                DateTime                         @updatedAt
+  customerAdvance          Float?
+  advanceSum               Float?
+  documentSentDate         DateTime?
+  customerPaymentStatus    EnumSupplyCustomerPaymentStatus?
+  customerPaymentSum       Float?
+  gUstatus                 EnumSupplyGUstatus?
+  estimatedCnyRate         Float?
+  exportContractNumber     String?
+  supplyOwner              String?
+  actuallyShippedVolume    Float?
+  plannedTrainDispatch     DateTime?
+  actualTrainDispatch      DateTime?
+  comments                 String?
+  finish                   Boolean?
+  fss                      String?
+  st1                      String?
+  survey                   String?
+  paymentIssues            String?
+  estimatedLogisticsRate   Float?
+  manager                  String?
+  deliveryNumber           String?
+  secured                  Boolean?
+  status                   EnumSupplyStatus?
+  salesVolume              Float?
+  salesPrice               Float?
+  sum                      Float?
+  basis                    String?
+  purchaseRegion           String?
+  purchaseVolume           Float?
+  deficit                  Float?
+  weightedAvgPurchasePrice Float?
+  transportRate            Float?
+  dispatchStartDate        DateTime?
+  trainContractDispatch    DateTime?
+  shipDispatch             DateTime?
+  hedgeStatus              EnumSupplyHedgeStatus?
+  paidToSupplier           Float?
+  supplierPaymentStatus    EnumSupplySupplierPaymentStatus?
+  invoiceDirectionDate     DateTime?
+  product                  Product?                         @relation(fields: [productId], references: [id])
+  productId                String?
+  customer                 Customer?                        @relation(fields: [customerId], references: [id])
+  customerId               String?
+  supplier                 Supplier?                        @relation(fields: [supplierId], references: [id])
+  supplierId               String?
+  transporter              Transporter?                     @relation(fields: [transporterId], references: [id])
+  transporterId            String?
+}
+
+model Product {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  supplies  Supply[]
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  supplies  Supply[]
+}
+
+model Supplier {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  supplies  Supply[]
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String?
+  roleName    String?
+}
+
+enum EnumSupplyCustomerPaymentStatus {
+  Option1
+}
+
+enum EnumSupplyGUstatus {
+  Option1
+}
+
+enum EnumSupplyStatus {
+  Option1
+}
+
+enum EnumSupplyHedgeStatus {
+  Option1
+}
+
+enum EnumSupplySupplierPaymentStatus {
+  Option1
+}
